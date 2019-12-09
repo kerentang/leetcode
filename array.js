@@ -261,3 +261,94 @@ var generate = function(numRows) {
   }
   return arr
 };
+
+// #66 加一
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function(digits) {
+  let sum = 0
+  let news = []
+  let len = digits.length
+  // trick:js处理16位以上的数字有精度问题，所以16以下都用字符串处理，16位以上只能按照循环数组处理
+  if (len < 16) {
+      let s = digits.join('')
+      sum = parseInt(s) + 1
+      news = (sum+'').split('')
+  } else {
+      if (digits[len-1] < 9) {
+          digits[len-1] = digits[len-1] + 1
+          return digits
+      } else {
+          for (let i = len-1;i>=0;i--) {
+              digits[i]++
+              digits[i] = digits[i] % 10
+              // 如果加完了不等于10，则返回
+              if (digits[i]!== 0) return digits
+          }
+          // 所有元素都进位了，直接在首部加一即可
+          digits.unshift(1)
+          return digits
+      }
+  }
+  return news
+};
+
+// #88 合并2个有序数组
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function(nums1, m, nums2, n) {
+  let len = m+n
+  let nn = n-1
+  let mm = m-1
+  if (m === 0) {
+      for (let i=0;i<n;i++) {
+          nums1[i] = nums2[i]
+      }
+  } else {
+      for (let i=len-1;i>=0;i--) {
+          if (mm >= 0 && nn >=0) {
+              if ((nums1[mm] < nums2[nn])) {
+                  nums1[i] = nums2[nn]
+                  nn--
+              } else {
+                  nums1[i] = nums1[mm]
+                  mm--
+              }
+          } else if (mm <0 && nn > -1) {
+              nums1[i] = nums2[nn]
+              nn--
+          }
+      }
+  }
+};
+
+// #119 杨辉三角2
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function(rowIndex) {
+  if (rowIndex === 0) return [1]
+  if (rowIndex === 1) return [1,1]
+  let arr = [[1],[1,1]]
+  let curRow = []
+  let k = rowIndex
+  for (let i = 2;i<k+1;i++) {
+      let temp = arr[i-1]
+      curRow = []
+      curRow.push(1)
+      for (let j = 1;j<i;j++) {
+          curRow.push(temp[j-1] + temp[j])
+      }
+      curRow.push(1)
+      arr.push(curRow)
+  }
+  return arr[k]
+};
