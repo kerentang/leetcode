@@ -106,3 +106,39 @@ var mergeTrees = function(t1, t2) {
   t1.right = mergeTrees(t1.right, t2.right)
   return t1
 };
+
+// #543 二叉树的直径
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var diameterOfBinaryTree = function(root) {
+  // h(t.left) + h(t.right)
+  // 后序遍历思路
+  // 如果是一科斜二叉树，则不一定过根节点，此时需要比较高度和与单个子树的高度谁大
+  //      1
+  //     2
+  //   4   5
+  // 6  7    9
+  let result = 1 // 经过的节点数
+  getHeight(root)
+  return result-1 // 节点数-1就是边数
+
+  function getHeight(root) {
+      if(!root) return 0
+      if(root) {
+          let countLeft = getHeight(root.left)
+          let countRight = getHeight(root.right)
+          result = (countLeft + countRight+1) > result ? (countLeft + countRight)+1 : result
+          let temp = countLeft > countRight ? countLeft : countRight
+          return temp+1
+      }
+  }
+};

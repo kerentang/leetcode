@@ -352,3 +352,50 @@ var getRow = function(rowIndex) {
   }
   return arr[k]
 };
+
+// #169 多数元素：遇到相同元素+1，遇到不同的-1，减到0换个数
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function(nums) {
+  // 充分利用众数个数>=1/2 len的条件
+  let k = 1
+  let len = nums.length
+  let half = Math.floor(len/2)
+  let start = nums[0]
+  for (let i = 1;i<len;i++) {
+      if (nums[i] === start) {
+          k++
+      } else {
+          if (k === 0) {
+              start = nums[i]
+              k=1
+          } else {
+              k--
+          }
+      }
+  }
+  return start
+};
+
+// #283 移动0: 双指针
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function(nums) {
+  let len = nums.length
+  let k = 0
+  for (let i=0;i<len;i++) {
+      if (nums[i] !== 0) {
+          nums[k] = nums[i]
+          k++
+      }
+  }
+  while(k<len) {
+      nums[k] = 0
+      k++
+  }
+  return nums
+};
